@@ -63,7 +63,7 @@ def convert_mth_strings ( mth_string ):
     return mth_string
 # pull down the content from the webpage
 html = urllib2.urlopen(url)
-soup = BeautifulSoup(html)
+soup = BeautifulSoup(html, 'lxml')
 # find all entries with the required class
 block = soup.find('div', attrs = {'class':'content content-primary '})
 links = block.find_all('a', href =True)
@@ -72,7 +72,7 @@ for link in links:
     if 'Payment to suppliers' in csvfile:
         links_url = 'http://www.doncaster.gov.uk/' + '/'.join(link['href'].split('/')[3:6])
         html_csv = urllib2.urlopen(links_url)
-        soup_csv = BeautifulSoup(html_csv)
+        soup_csv = BeautifulSoup(html_csv, 'lxml')
         blocks_csv = soup_csv.find_all('a')
         for block_csv in blocks_csv:
             if 'Payment' in block_csv.text:
