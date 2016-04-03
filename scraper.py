@@ -98,12 +98,12 @@ soup = BeautifulSoup(html, 'lxml')
 
 #### SCRAPE DATA
 
-block = soup.find('div', attrs = {'class':'content content-primary '})
+block = soup.find('div', attrs = {'class':'content content-primary '}).find('ul')
 links = block.find_all('a', href =True)
 for link in links:
     csvfile = link.text
     if 'Payment to suppliers' in csvfile:
-        links_url = 'http://www.doncaster.gov.uk/' + '/'.join(link['href'].split('/')[3:6])
+        links_url = 'http://www.doncaster.gov.uk' + link['href']
         html_csv = urllib2.urlopen(links_url)
         soup_csv = BeautifulSoup(html_csv, 'lxml')
         blocks_csv = soup_csv.find_all('a')
@@ -114,6 +114,14 @@ for link in links:
                     csvfiles = block_csv.text
                     csvMth = csvfiles.split(' ')[-2].strip()[:3]
                     csvYr = csvfiles.split(' ')[-1].strip()
+                    csvMth = convert_mth_strings(csvMth.upper())
+                    data.append([csvYr, csvMth, url])
+            if 'Published Spend' in block_csv.text:
+                if '.csv' in block_csv['href']:
+                    url = block_csv['href']
+                    csvfiles = block_csv.text
+                    csvMth = csvfiles.replace(u'\xa0', ' ').split(' ')[-2].strip()[:3]
+                    csvYr = csvfiles.replace(u'\xa0', ' ').split(' ')[-1].strip()
                     csvMth = convert_mth_strings(csvMth.upper())
                     data.append([csvYr, csvMth, url])
 
