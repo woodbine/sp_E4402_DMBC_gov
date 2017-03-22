@@ -85,7 +85,7 @@ def convert_mth_strings ( mth_string ):
 #### VARIABLES 1.0
 
 entity_id = "E4402_DMBC_gov"
-url = 'http://www.doncaster.gov.uk/services/the-council-democracy/local-transparency-payments-to-suppliers'
+url = 'http://www.doncaster.gov.uk/services/the-council-democracy/payments-to-suppliers-reports-2016-17'
 errors = 0
 data = []
 
