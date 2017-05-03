@@ -85,7 +85,7 @@ def convert_mth_strings ( mth_string ):
 #### VARIABLES 1.0
 
 entity_id = "E4402_DMBC_gov"
-url = 'http://www.doncaster.gov.uk/services/the-council-democracy/payments-to-suppliers-reports-2016-17'
+url = 'http://www.doncaster.gov.uk/services/the-council-democracy/local-transparency-payments-to-suppliers'
 errors = 0
 data = []
 
@@ -98,12 +98,12 @@ soup = BeautifulSoup(html, 'lxml')
 
 #### SCRAPE DATA
 
-block = soup.find('div', attrs = {'class':'content content-primary '}).find('ul')
+block = soup.find('div', attrs = {'class':'content content-primary col-xs-12 col-md-8'}).find('ul')
 links = block.find_all('a', href =True)
 for link in links:
     csvfile = link.text
     if 'Payment to suppliers' in csvfile:
-        links_url = 'http://www.doncaster.gov.uk' + link['href']
+        links_url = 'http://www.doncaster.gov.uk' + link['href'].replace('../../..', '')
         html_csv = urllib2.urlopen(links_url)
         soup_csv = BeautifulSoup(html_csv, 'lxml')
         blocks_csv = soup_csv.find_all('a')
